@@ -1,0 +1,30 @@
+# Core dependencies
+torch==2.2.0          # PyTorch for deep learning
+torchvision==0.17.0   # Image transforms and datasets
+torchaudio==2.2.0     # Optional but bundled with torch
+
+# CLIP model (from OpenAI GitHub)
+git+https://github.com/openai/CLIP.git
+
+# Image similarity search
+faiss-cpu==1.7.4      # FAISS CPU version for similarity search
+
+# Web server and API
+flask==2.3.3          # Web framework
+flask-cors==4.0.0     # Enable CORS if needed
+
+# Image and data processing
+Pillow==10.2.0        # Image loading
+numpy==1.26.4
+pandas==2.2.2
+
+# Text-to-speech
+pyttsx3==2.90         # Offline TTS engine
+
+# Optional utilities
+matplotlib==3.8.4     # For debugging/visualizing
+opencv-python==4.9.0.80  # For image manipulation (optional)
+soundfile==0.12.1     # Audio support for TTS (optional)
+
+# If using gTTS (optional, requires internet)
+# gTTS==2.5.1
