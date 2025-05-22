@@ -1,35 +1,20 @@
-# backend/search_and_describe.py
-
-import clip
-import torch
-from PIL import Image
 import numpy as np
 import faiss
-import json
-import os
+import torch
+from PIL import Image
+from utils import get_abs_path, load_clip_model, load_metadata, is_image_file
 
-# Paths
+model, preprocess, device = load_clip_model()
 
+INDEX_PATH = get_abs_path("gallery.index")
+FEATURES_PATH = get_abs_path("gallery_features.npy")
+FILENAMES_PATH = get_abs_path("gallery_filenames.npy")
+METADATA_PATH = get_abs_path("../metadata.json")
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-INDEX_PATH = os.path.join(BASE_DIR, "gallery.index")
-FEATURES_PATH = os.path.join(BASE_DIR, "gallery_features.npy")
-FILENAMES_PATH = os.path.join(BASE_DIR, "gallery_filenames.npy")
-METADATA_PATH = os.path.join(BASE_DIR, "../metadata.json")
-GALLERY_DIR = os.path.join(BASE_DIR,"../gallery/")
-
-device = "cuda" if torch.cuda.is_available() else "cpu"
-
-# Load CLIP model
-model, preprocess = clip.load("ViT-B/32", device=device)
-
-# Load FAISS index and filenames
 index = faiss.read_index(INDEX_PATH)
+features = np.load(FEATURES_PATH)
 filenames = np.load(FILENAMES_PATH)
-
-# Load metadata
-with open(METADATA_PATH, "r") as f:
-    metadata = json.load(f)
+metadata = load_metadata(METADATA_PATH)
 
 def extract_feature(image_path):
     image = preprocess(Image.open(image_path)).unsqueeze(0).to(device)
@@ -41,15 +26,14 @@ def extract_feature(image_path):
 def search_and_describe(query_image_path, top_k=3):
     query_vector = extract_feature(query_image_path)
     distances, indices = index.search(query_vector, top_k)
-
     results = []
     for idx in indices[0]:
-        filename = filenames[idx]
-        info = metadata.get(filename, {})
+        fname = filenames[idx]
+        info = metadata.get(fname, {})
         results.append({
-            "filename": filename,
+            "filename": fname,
             "title": info.get("title", "Unknown"),
             "description": info.get("description", "No description found.")
         })
-
     return results
+
