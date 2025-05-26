@@ -1,7 +1,8 @@
 import pyttsx3
 
-from utils import get_abs_path
+from backend.utils import get_abs_path
 AUDIO_PATH = get_abs_path("../static/audio/current_audio.mp3")
+print(AUDIO_PATH)
 def speak_text(text):
     engine = pyttsx3.init()
     engine.setProperty('rate', 160)  # Speaking speed (default is ~200)

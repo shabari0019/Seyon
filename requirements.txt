@@ -28,3 +28,5 @@ soundfile==0.12.1     # Audio support for TTS (optional)
 
 # If using gTTS (optional, requires internet)
 # gTTS==2.5.1
+
+

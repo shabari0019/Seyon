@@ -2,7 +2,7 @@ import numpy as np
 import faiss
 import torch
 from PIL import Image
-from utils import get_abs_path, load_clip_model, load_metadata, is_image_file
+from backend.utils import get_abs_path, load_clip_model, load_metadata, is_image_file
 
 model, preprocess, device = load_clip_model()
 
