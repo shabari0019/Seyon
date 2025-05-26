@@ -1,7 +1,8 @@
-# backend/tts.py
-
 import pyttsx3
 
+from backend.utils import get_abs_path
+AUDIO_PATH = get_abs_path("../static/audio/current_audio.mp3")
+print(AUDIO_PATH)
 def speak_text(text):
     engine = pyttsx3.init()
     engine.setProperty('rate', 160)  # Speaking speed (default is ~200)
@@ -9,9 +10,13 @@ def speak_text(text):
     engine.say(text)
     engine.runAndWait()
 
-def save_speech_to_file(text, output_path="static/audio/output_audio.mp3"):
+
+
+
+def generate_audio(text):
     engine = pyttsx3.init()
-    engine.save_to_file(text, output_path)
+    engine.setProperty('rate', 160)
+    engine.save_to_file(text, AUDIO_PATH)
     engine.runAndWait()
-    print(f"Saved audio to {output_path}")
-    return output_path
+    print(f"✅ Audio saved to {AUDIO_PATH}")
+    return AUDIO_PATH

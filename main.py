@@ -2,7 +2,7 @@
 
 # cli_main.py
 from backend.search_and_describe import search_and_describe
-from backend.tts import save_speech_to_file
+from backend.tts import generate_audio
 import os
 from time import sleep
 
@@ -28,7 +28,7 @@ def main():
     # Speak the top result
     top_description = results[0]["description"]
     print("🔊 Generating audio...")
-    audio_path = save_speech_to_file(top_description)
+    audio_path = generate_audio(top_description)
 
     # Ask if user wants to play audio
     play = input("▶️ Play the description out loud? (y/n): ").lower()
